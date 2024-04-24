@@ -116,34 +116,39 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	# "Employee":{
+    #     "before_save": [
+    #         "hris.hris.events.set_employee_number",
+    #     ],
+    # },
+}
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"hris.tasks.all"
-# 	],
-# 	"daily": [
-# 		"hris.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"hris.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"hris.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"hris.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	# "all": [
+	# 	"hris.tasks.all"
+	# ],
+	# "daily": [
+	# 	"hris.tasks.daily"
+	# ],
+	# "hourly": [
+	# 	"hris.tasks.hourly"
+	# ],
+	# "weekly": [
+	# 	"hris.tasks.weekly"
+	# ],
+	# "monthly": [
+	# 	"hris.tasks.monthly"
+	# ],
+    # "cron": {
+	# 	"30 0 * * *": [
+	# 		"hris.hris.tasks.set_employee_age",
+	# 	],
+	# },
+}
 
 # Testing
 # -------
@@ -213,3 +218,14 @@ app_license = "MIT"
 # auth_hooks = [
 # 	"hris.auth.validate"
 # ]
+
+fixtures = [
+    {"dt": "Custom Field", "filters": [
+        [
+            "name", "in", 
+            [
+                "Employee-custom_employee_number",
+            ]
+        ]
+    ]},
+]
