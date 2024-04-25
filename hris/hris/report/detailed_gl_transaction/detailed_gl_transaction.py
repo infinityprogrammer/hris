@@ -23,12 +23,27 @@ def get_data(filters):
 		""",filters,as_dict=1)
 	
 	for account in accounts:
+
+		exist = validate_account_entry(account.name, filters)
+		if not exist:
+			continue
+
 		opening = get_account_opening(account.name, filters)
 		data.append(opening)
 
 		transactions = get_account_transactions(account.name, filters)
 		for row in transactions:
 			data.append(row)
+
+		dr, cr = get_dr_and_cr(account.name, filters)
+		total_dr_cr = {}
+
+		total_dr_cr['account'] = 'Total Debit & Credit'
+		total_dr_cr['account_currency'] = frappe.db.get_value('Account', account, 'account_currency')
+		total_dr_cr['company'] = frappe.db.get_value('Account', account, 'company')
+		total_dr_cr['debit_in_account_currency'] = dr
+		total_dr_cr['credit_in_account_currency'] = cr
+		data.append(total_dr_cr)
 
 		totals = get_account_totals(account.name, filters)
 		data.append(totals)
@@ -98,12 +113,30 @@ def get_account_totals(account, filters):
 	# opening_dict['posting_date'] = filters.get("to_date")
 	closing_dict['account_currency'] = frappe.db.get_value('Account', account, 'account_currency')
 	closing_dict['company'] = frappe.db.get_value('Account', account, 'company')
-	closing_dict['account'] = f"Total"
+	closing_dict['account'] = f"Account Balance (Dr - Cr)"
 	closing_dict['debit_in_account_currency'] = abs(closing[0].balance) if flt(closing[0].balance) > 0 else 0
 	closing_dict['credit_in_account_currency'] = abs(closing[0].balance) if flt(closing[0].balance) < 0 else 0
 
 	return closing_dict
 
+def validate_account_entry(account, filters):
+	entry = frappe.db.sql(
+		"""
+		SELECT * FROM `tabGL Entry`
+		where account = %(account)s and posting_date between %(from_date)s and %(to_date)s and is_cancelled = 0
+		""",{'account': account, 'from_date': filters.get("from_date"),'to_date': filters.get("to_date")}, as_dict=1)
+
+	return entry
+
+def get_dr_and_cr(account, filters):
+	balance = frappe.db.sql(
+		"""
+		SELECT ifnull(sum(debit_in_account_currency), 0)dr, ifnull(sum(credit_in_account_currency), 0)cr 
+		FROM `tabGL Entry` where account = %(account)s and 
+		posting_date between %(from_date)s and %(to_date)s and is_cancelled = 0
+		""",{'account': account, 'from_date': filters.get("from_date"),'to_date': filters.get("to_date")}, as_dict=1)
+
+	return balance[0].dr, balance[0].cr 
 
 def get_columns(filters):
 	return [
