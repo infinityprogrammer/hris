@@ -52,15 +52,15 @@ def get_data(filters):
 		data.append(closing)
 		data.append({})
 
-		all_dr, all_cr = all_account_dr_and_cr(account.name, filters)
-		all_total_dr_cr = {}
+	all_dr, all_cr = all_account_dr_and_cr(account.name, filters)
+	all_total_dr_cr = {}
 
-		all_total_dr_cr['account'] = "All Account Total Dr & Cr Closing In {0}".format(frappe.db.get_value('Company', filters.get("company"), 'default_currency'))
-		all_total_dr_cr['account_currency'] = frappe.db.get_value('Company', filters.get("company"), 'default_currency')
-		all_total_dr_cr['company'] = frappe.db.get_value('Account', account, 'company')
-		all_total_dr_cr['debit_in_account_currency'] = all_dr
-		all_total_dr_cr['credit_in_account_currency'] = all_cr
-		data.append(all_total_dr_cr)
+	all_total_dr_cr['account'] = "All Account Total Dr & Cr Closing In {0}".format(frappe.db.get_value('Company', filters.get("company"), 'default_currency'))
+	all_total_dr_cr['account_currency'] = frappe.db.get_value('Company', filters.get("company"), 'default_currency')
+	all_total_dr_cr['company'] = frappe.db.get_value('Account', account, 'company')
+	all_total_dr_cr['debit_in_account_currency'] = all_dr
+	all_total_dr_cr['credit_in_account_currency'] = all_cr
+	data.append(all_total_dr_cr)
 		
 	return data
 
