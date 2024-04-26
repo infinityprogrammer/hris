@@ -51,6 +51,16 @@ def get_data(filters):
 		closing = get_account_closing(account.name, filters)
 		data.append(closing)
 		data.append({})
+
+		all_dr, all_cr = all_account_dr_and_cr(account.name, filters)
+		all_total_dr_cr = {}
+
+		all_total_dr_cr['account'] = "All Account Total Dr & Cr Closing In {0}".format(frappe.db.get_value('Company', filters.get("company"), 'default_currency'))
+		all_total_dr_cr['account_currency'] = frappe.db.get_value('Company', filters.get("company"), 'default_currency')
+		all_total_dr_cr['company'] = frappe.db.get_value('Account', account, 'company')
+		all_total_dr_cr['debit_in_account_currency'] = all_dr
+		all_total_dr_cr['credit_in_account_currency'] = all_cr
+		data.append(all_total_dr_cr)
 		
 	return data
 
@@ -137,6 +147,17 @@ def get_dr_and_cr(account, filters):
 		""",{'account': account, 'from_date': filters.get("from_date"),'to_date': filters.get("to_date")}, as_dict=1)
 
 	return balance[0].dr, balance[0].cr 
+
+def all_account_dr_and_cr(account, filters):
+	balance = frappe.db.sql(
+		"""
+		SELECT ifnull(sum(debit), 0)dr, ifnull(sum(credit), 0)cr
+		FROM `tabGL Entry` where company = %(company)s 
+		and posting_date <= %(to_date)s and is_cancelled = 0
+		""",{'company': filters.get("company"),'to_date': filters.get("to_date")}, as_dict=1)
+
+	return balance[0].dr, balance[0].cr 
+
 
 def get_columns(filters):
 	return [

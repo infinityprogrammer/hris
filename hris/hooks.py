@@ -117,11 +117,11 @@ app_license = "MIT"
 # Hook on document methods and events
 
 doc_events = {
-	# "Employee":{
-    #     "before_save": [
-    #         "hris.hris.events.set_employee_number",
-    #     ],
-    # },
+	"Employee":{
+        "before_save": [
+            "hris.hris.events.set_employee_number",
+        ],
+    },
 }
 
 # Scheduled Tasks
@@ -143,11 +143,11 @@ scheduler_events = {
 	# "monthly": [
 	# 	"hris.tasks.monthly"
 	# ],
-    # "cron": {
-	# 	"30 0 * * *": [
-	# 		"hris.hris.tasks.set_employee_age",
-	# 	],
-	# },
+    "cron": {
+		"30 0 * * *": [
+			"hris.hris.tasks.set_employee_age",
+		],
+	},
 }
 
 # Testing
