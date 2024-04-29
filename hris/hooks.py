@@ -268,6 +268,7 @@ fixtures = [
 				"Employee-custom_tax_number",
 				"Employee-custom_employee_age",
 				"Employee-custom_employee_number",
+                "Employee-custom_emergency_contact_surname"
             ]
         ]
     ]},
@@ -280,6 +281,16 @@ fixtures = [
                 [
                     "Employee External Work History-main-field_order",
                     "Employee-main-field_order",
+                    "Employee-main-field_order",
+					"Employee-cell_number-label",
+					"Employee-permanent_address-reqd",
+					"Employee-current_address-reqd",
+					"Employee-current_accommodation_type-hidden",
+					"Employee-permanent_accommodation_type-hidden",
+					"Employee-permanent_address-label",
+					"Employee-department-hidden",
+					"Employee-salutation-hidden",
+					"Employee-last_name-reqd"
                 ],
             ],
         ],
