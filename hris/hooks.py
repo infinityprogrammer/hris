@@ -268,7 +268,8 @@ fixtures = [
 				"Employee-custom_tax_number",
 				"Employee-custom_employee_age",
 				"Employee-custom_employee_number",
-                "Employee-custom_emergency_contact_surname"
+                "Employee-custom_emergency_contact_surname",
+                "Employee-custom_nationality_country"
             ]
         ]
     ]},
@@ -290,7 +291,8 @@ fixtures = [
 					"Employee-permanent_address-label",
 					"Employee-department-hidden",
 					"Employee-salutation-hidden",
-					"Employee-last_name-reqd"
+					"Employee-last_name-reqd",
+                    "Employee-main-field_order"
                 ],
             ],
         ],
