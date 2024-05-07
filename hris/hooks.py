@@ -291,8 +291,9 @@ fixtures = [
 					"Employee-permanent_address-label",
 					"Employee-department-hidden",
 					"Employee-salutation-hidden",
-					"Employee-last_name-reqd",
-                    "Employee-main-field_order"
+                    "Employee-main-field_order",
+                    "Employee-last_name-reqd",
+                    "Employee-grade-label"
                 ],
             ],
         ],
