@@ -1,0 +1,56 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-22 11:37:38.131565",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "emergency_contact_name",
+  "emergency_contact_surname",
+  "emergency_phone",
+  "relation_with_employee"
+ ],
+ "fields": [
+  {
+   "fieldname": "emergency_contact_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Emergency Contact Name"
+  },
+  {
+   "fieldname": "emergency_contact_surname",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Emergency Contact Surname"
+  },
+  {
+   "fieldname": "emergency_phone",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Emergency Phone"
+  },
+  {
+   "fieldname": "relation_with_employee",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Relation With Employee"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-22 11:38:34.643790",
+ "modified_by": "Administrator",
+ "module": "Hris",
+ "name": "Emergency Contact",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
