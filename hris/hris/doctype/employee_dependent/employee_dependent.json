@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-24 09:28:43.788130",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "dependents_name",
+  "dependent_date_of_birth",
+  "relationship_with_dependents"
+ ],
+ "fields": [
+  {
+   "fieldname": "dependents_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Dependents Name"
+  },
+  {
+   "fieldname": "dependent_date_of_birth",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Dependent Date of Birth"
+  },
+  {
+   "fieldname": "relationship_with_dependents",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Relationship with Dependents",
+   "options": "\nSpouse\nParent\nChild\nSibling"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-24 09:30:53.082577",
+ "modified_by": "Administrator",
+ "module": "Hris",
+ "name": "Employee Dependent",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

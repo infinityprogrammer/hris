@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-24 09:33:57.131343",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "language",
+  "language_level"
+ ],
+ "fields": [
+  {
+   "fieldname": "language",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Language",
+   "options": "\nEnglish\nSpanish\nFrench\nGerman\nRussian\nHindi\nBengali\nPortuguese\nItalian\nDutch\nPolish\nGreek\nUkrainian\nRomanian\nCzech\nPersian\nTurkish"
+  },
+  {
+   "fieldname": "language_level",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Language Level",
+   "options": "\nBasic\nElementary\nPre - Intermediate\nIntermediate\nUpper - Intermediate\nAdvanced\nFluent\nProficient"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-24 09:33:57.131343",
+ "modified_by": "Administrator",
+ "module": "Hris",
+ "name": "Employee Language",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
