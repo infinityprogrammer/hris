@@ -290,6 +290,8 @@ fixtures = [
 				"Employee-custom_column_break_czeci",
 				"Employee-custom_language_2",
 				"Employee-custom_language_2_level",
+                "cluster-custom_cluster_type",
+                "Monthly Distribution Percentage-custom_amount_allocation"
             ]
         ]
     ]},
