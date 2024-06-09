@@ -41,6 +41,7 @@ def get_data(filters):
 	fiscal_year = filters.get("fiscal_year")
 
 	for row in revenue_cluster:
+		net = {}
 		for attr in attrs:
 			cluster_dict = {}
 			for month in all_months:
@@ -53,14 +54,33 @@ def get_data(filters):
 				cluster_dict[f"{month.lower()}_budget"] = budget_amt
 				cluster_dict[f"{month.lower()}_actual"] = actual_amt
 				cluster_dict[f"{month.lower()}_variance"] = variance
+
+				if attr == "Revenue":
+					net[f"{month.lower()}_budget"] = budget_amt
+					net[f"{month.lower()}_actual"] = actual_amt
+					net[f"{month.lower()}_variance"] = variance
+				
+				if attr == "Emp Cost":
+					net[f"{month.lower()}_budget"] -= budget_amt
+					net[f"{month.lower()}_actual"] -= actual_amt
+					net[f"{month.lower()}_variance"] -= variance
+				
+				if attr == "Others":
+					net[f"{month.lower()}_budget"] -= budget_amt
+					net[f"{month.lower()}_actual"] -= actual_amt
+					net[f"{month.lower()}_variance"] -= variance
 			
 			cluster_dict['cluster'] = row.name
 			cluster_dict['rc_type'] = attr
 			data.append(cluster_dict)
+
+		
+		net['cluster'] = row.name
+		net['rc_type'] = "Net"
+		data.append(net)
+		data.append({})
 	
 	net_cluster_dict = {}
-	
-	data.append({})
 
 	for month in all_months:
 		net_cluster_dict[f"{month.lower()}_budget"] = 0
@@ -96,7 +116,7 @@ def get_data(filters):
 				net_cluster_dict[f"{month.lower()}_actual"] -= margin_actual
 				net_cluster_dict[f"{month.lower()}_variance"] -= margin_variance
 
-		cluster_dict['cluster'] = "Margin"
+		cluster_dict['cluster'] = "Subtotal"
 		cluster_dict['rc_type'] = attr
 		data.append(cluster_dict)
 
@@ -178,17 +198,17 @@ def get_data(filters):
 		cluster_dict = {}
 		
 		if attr == "Emp Cost":
-			support_cluster_dict['cluster'] = "Sub Total Expenses"
+			support_cluster_dict['cluster'] = "Subtotal"
 			support_cluster_dict['rc_type'] = attr
 			data.append(support_cluster_dict)
 
 		if attr == "Others":
-			support_cluster_dict_oth['cluster'] = "Sub Total Expenses"
+			support_cluster_dict_oth['cluster'] = "Subtotal"
 			support_cluster_dict_oth['rc_type'] = attr
 			data.append(support_cluster_dict_oth)
 		
 		if attr == "Sub Total":
-			support_cluster_dict_sub_total['cluster'] = "Sub Total Expenses"
+			support_cluster_dict_sub_total['cluster'] = "Subtotal"
 			support_cluster_dict_sub_total['rc_type'] = attr
 			data.append(support_cluster_dict_sub_total)
 	
@@ -221,14 +241,16 @@ def get_data(filters):
 	data.append({})
 	
 	m_sub_total['cluster'] = ""
-	m_sub_total['rc_type'] = "Sub Total"
+	m_sub_total['rc_type'] = "Subtotal"
 	data.append(m_sub_total)
 
 	for month in all_months:
+		
+		fin_margin[f"{month.lower()}_budget"] =  net_cluster_dict[f"{month.lower()}_budget"] - m_sub_total[f"{month.lower()}_budget"] - support_cluster_dict_sub_total[f"{month.lower()}_budget"]
+		fin_margin[f"{month.lower()}_actual"] = net_cluster_dict[f"{month.lower()}_actual"] - m_sub_total[f"{month.lower()}_actual"] - support_cluster_dict_sub_total[f"{month.lower()}_variance"]
+		fin_margin[f"{month.lower()}_variance"] = net_cluster_dict[f"{month.lower()}_variance"] - m_sub_total[f"{month.lower()}_variance"] - support_cluster_dict_sub_total[f"{month.lower()}_variance"]
 
-		fin_margin[f"{month.lower()}_budget"] =  support_cluster_dict_sub_total[f"{month.lower()}_budget"] - m_sub_total[f"{month.lower()}_budget"]
-		fin_margin[f"{month.lower()}_actual"] = support_cluster_dict_sub_total[f"{month.lower()}_actual"] - m_sub_total[f"{month.lower()}_actual"]
-		fin_margin[f"{month.lower()}_variance"] = support_cluster_dict_sub_total[f"{month.lower()}_variance"] - m_sub_total[f"{month.lower()}_variance"]
+
 
 	fin_margin['cluster'] = "Margin"
 	fin_margin['rc_type'] = ""
