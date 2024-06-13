@@ -37,6 +37,7 @@
    "options": "Fiscal Year"
   },
   {
+   "description": "All amount should be in currency USD",
    "fieldname": "monthly_distribution",
    "fieldtype": "Table",
    "label": "Monthly Distribution",
@@ -58,7 +59,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-05 21:28:22.267792",
+ "modified": "2024-06-13 17:33:57.852917",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Cluster Budget",

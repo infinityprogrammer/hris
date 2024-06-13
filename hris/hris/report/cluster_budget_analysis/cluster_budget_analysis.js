@@ -12,5 +12,26 @@ frappe.query_reports["Cluster Budget Analysis"] = {
 			"reqd": 1,
 			"default": 2024
 		},
+		{
+			"fieldname": "aed_exchange_rate",
+			"label": __("AED Exchange Rate"),
+			"fieldtype": "Float",
+			"reqd": 1,
+			"default": 1
+		},
+		{
+			"fieldname": "rub_exchange_rate",
+			"label": __("RUB Exchange Rate"),
+			"fieldtype": "Float",
+			"reqd": 1,
+			"default": 1
+		},
+		{
+			"fieldname": "eur_exchange_rate",
+			"label": __("EUR Exchange Rate"),
+			"fieldtype": "Float",
+			"reqd": 1,
+			"default": 1
+		},
 	]
 };

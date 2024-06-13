@@ -47,7 +47,7 @@ def get_data(filters):
 			for month in all_months:
 				
 				budget_amt = get_budget_amount(month, row.name, fiscal_year, attr)
-				actual_amt = get_actual_amount(month, row.name, fiscal_year, attr)
+				actual_amt = get_actual_amount(month, row.name, fiscal_year, attr, filters)
 
 				variance = flt(actual_amt - budget_amt)
 
@@ -93,7 +93,7 @@ def get_data(filters):
 		
 		for month in all_months:
 			margin_budget = get_margin_budget_amount(month, fiscal_year, attr)
-			margin_actual = get_margin_actual_amount(month, fiscal_year, attr)
+			margin_actual = get_margin_actual_amount(month, fiscal_year, attr, filters)
 			margin_variance = margin_actual - margin_budget
 
 			cluster_dict[f"{month.lower()}_budget"] = margin_budget
@@ -163,7 +163,7 @@ def get_data(filters):
 			for month in all_months:
 				
 				budget_amt = get_budget_amount(month, c_cluster.name, fiscal_year, attr)
-				actual_amt = get_actual_amount(month, c_cluster.name, fiscal_year, attr)
+				actual_amt = get_actual_amount(month, c_cluster.name, fiscal_year, attr, filters)
 				variance = flt(actual_amt - budget_amt)
 
 				cluster_dict[f"{month.lower()}_budget"] = budget_amt
@@ -222,7 +222,7 @@ def get_data(filters):
 			for month in all_months:
 
 				budget_amt = get_budget_amount(month, d_cluster.name, fiscal_year, attr)
-				actual_amt = get_actual_amount(month, d_cluster.name, fiscal_year, attr)
+				actual_amt = get_actual_amount(month, d_cluster.name, fiscal_year, attr, filters)
 				variance = flt(actual_amt - budget_amt)
 
 				cluster_dict[f"{month.lower()}_budget"] = budget_amt
@@ -345,26 +345,47 @@ def get_budget_amount(month, cluster, fiscal_year, type):
 	else:
 		return 0
 
-def get_actual_amount(month, cluster, fiscal_year, type):
+def get_actual_amount(month, cluster, fiscal_year, type, filters):
+
+	aed_exch = filters.get("aed_exchange_rate")
+	rub_exch = filters.get("rub_exchange_rate")
+	eur_exch = filters.get("eur_exchange_rate")
 	
 	if type == "Revenue":
-		gl_amount = frappe.db.sql("""SELECT ifnull(sum(credit-debit), 0)balance
-									FROM `tabGL Entry` where account like '4%%'
+		gl_amount = frappe.db.sql("""SELECT ifnull(sum((credit-debit) * exch), 0)balance FROM (
+									SELECT credit, debit,
+									(CASE
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'AED' THEN %(aed_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'RUB' THEN %(rub_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'EUR' THEN %(eur_exch)s
+										ELSE 1
+									END)exch
+									FROM `tabGL Entry` gl where account like '4%%'
 									and is_cancelled = 0 and cluster = %(cluster)s 
-									and year(posting_date) = %(fiscal_year)s and MONTHNAME(posting_date) = %(month)s""",
-									{'month': month, 'type': type, 'cluster': cluster, 'fiscal_year': fiscal_year}, as_dict=True)
-		
+									and year(posting_date) = %(fiscal_year)s and MONTHNAME(posting_date) = %(month)s)a1""",
+									{'month': month, 'type': type, 'cluster': cluster, 'fiscal_year': fiscal_year,
+		  							'aed_exch': aed_exch, 'rub_exch': rub_exch, 'eur_exch': eur_exch}, as_dict=True)
+
 		if gl_amount:
 			return gl_amount[0].balance
 		else:
 			return 0
+		
 	
 	if type == "Emp Cost":
-		gl_amount = frappe.db.sql("""SELECT ifnull(sum(debit-credit), 0)balance
-									FROM `tabGL Entry` where account like '5001%%'
+		gl_amount = frappe.db.sql("""SELECT ifnull(sum((debit-credit) * exch), 0)balance FROM (
+									SELECT credit, debit,
+									(CASE
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'AED' THEN %(aed_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'RUB' THEN %(rub_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'EUR' THEN %(eur_exch)s
+										ELSE 1
+									END)exch
+									FROM `tabGL Entry` gl where account like '5001%%'
 									and is_cancelled = 0 and cluster = %(cluster)s 
-									and year(posting_date) = %(fiscal_year)s and MONTHNAME(posting_date) = %(month)s""",
-									{'month': month, 'type': type, 'cluster': cluster, 'fiscal_year': fiscal_year}, as_dict=True)
+									and year(posting_date) = %(fiscal_year)s and MONTHNAME(posting_date) = %(month)s)a1""",
+									{'month': month, 'type': type, 'cluster': cluster, 'fiscal_year': fiscal_year,
+		  							'aed_exch': aed_exch, 'rub_exch': rub_exch, 'eur_exch': eur_exch}, as_dict=True)
 		if gl_amount:
 			return gl_amount[0].balance
 		else:
@@ -372,13 +393,21 @@ def get_actual_amount(month, cluster, fiscal_year, type):
 
 	if type == "Others":
 
-		gl_amount = frappe.db.sql("""SELECT ifnull(sum(debit-credit), 0)balance
+		gl_amount = frappe.db.sql("""SELECT ifnull(sum((debit-credit) * exch), 0)balance FROM (
+									SELECT credit, debit,
+									(CASE
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'AED' THEN %(aed_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'RUB' THEN %(rub_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'EUR' THEN %(eur_exch)s
+										ELSE 1
+									END)exch
 									FROM `tabGL Entry`gl, `tabAccount` acc where 
 									gl.account = acc.name and gl.account like '5%%'
 									and is_cancelled = 0 and cluster = %(cluster)s
 									and year(posting_date) = %(fiscal_year)s AND MONTHNAME(posting_date) = %(month)s
-									and acc.account_number not in (5001)""",
-									{'month': month, 'type': type, 'cluster': cluster, 'fiscal_year': fiscal_year}, as_dict=True)
+									and acc.account_number not in (5001))a1""",
+									{'month': month, 'type': type, 'cluster': cluster, 'fiscal_year': fiscal_year,
+		  							'aed_exch': aed_exch, 'rub_exch': rub_exch, 'eur_exch': eur_exch}, as_dict=True)
 		if gl_amount:
 			return gl_amount[0].balance
 		else:
@@ -386,12 +415,20 @@ def get_actual_amount(month, cluster, fiscal_year, type):
 	
 	if type == "Dev Cost":
 
-		gl_amount = frappe.db.sql("""SELECT ifnull(sum(debit-credit), 0)balance
-									FROM `tabGL Entry`gl, `tabAccount` acc where 
+		gl_amount = frappe.db.sql("""SELECT ifnull(sum((debit-credit) * exch), 0)balance FROM (
+									SELECT credit, debit,
+									(CASE
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'AED' THEN %(aed_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'RUB' THEN %(rub_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'EUR' THEN %(eur_exch)s
+										ELSE 1
+									END)exch
+									FROM `tabGL Entry`gl, `tabAccount` acc where
 									gl.account = acc.name and gl.account like '1311%%'
 									and is_cancelled = 0 and cluster = %(cluster)s
-									and year(posting_date) = %(fiscal_year)s AND MONTHNAME(posting_date) = %(month)s""",
-									{'month': month, 'type': type, 'cluster': cluster, 'fiscal_year': fiscal_year}, as_dict=True)
+									and year(posting_date) = %(fiscal_year)s AND MONTHNAME(posting_date) = %(month)s)a1""",
+									{'month': month, 'type': type, 'cluster': cluster, 'fiscal_year': fiscal_year,
+		  							'aed_exch': aed_exch, 'rub_exch': rub_exch, 'eur_exch': eur_exch}, as_dict=True)
 		if gl_amount:
 			return gl_amount[0].balance
 		else:
@@ -411,15 +448,27 @@ def get_margin_budget_amount(month, fiscal_year, type):
 	else:
 		return 0
 
-def get_margin_actual_amount(month, fiscal_year, type):
+def get_margin_actual_amount(month, fiscal_year, type, filters):
+
+	aed_exch = filters.get("aed_exchange_rate")
+	rub_exch = filters.get("rub_exchange_rate")
+	eur_exch = filters.get("eur_exchange_rate")
 
 	if type == "Revenue":
 
-		gl_amount = frappe.db.sql("""SELECT ifnull(sum(credit-debit), 0)balance
-									FROM `tabGL Entry` where account like '4%%'
+		gl_amount = frappe.db.sql("""SELECT ifnull(sum((credit-debit) * exch), 0)balance FROM (
+									SELECT credit, debit,
+									(CASE
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'AED' THEN %(aed_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'RUB' THEN %(rub_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'EUR' THEN %(eur_exch)s
+										ELSE 1
+									END)exch
+									FROM `tabGL Entry` gl where account like '4%%'
 									and is_cancelled = 0 and cluster in (SELECT name FROM `tabcluster` where custom_cluster_type = 'Revenue') 
-									and year(posting_date) = %(fiscal_year)s and MONTHNAME(posting_date) = %(month)s""",
-									{'month': month, 'type': type, 'fiscal_year': fiscal_year}, as_dict=True)
+									and year(posting_date) = %(fiscal_year)s and MONTHNAME(posting_date) = %(month)s)a1""",
+									{'month': month, 'type': type, 'fiscal_year': fiscal_year,
+		  							'aed_exch': aed_exch, 'rub_exch': rub_exch, 'eur_exch': eur_exch}, as_dict=True)
 		
 		if gl_amount:
 			return gl_amount[0].balance
@@ -427,11 +476,19 @@ def get_margin_actual_amount(month, fiscal_year, type):
 			return 0
 	
 	if type == "Emp Cost":
-		gl_amount = frappe.db.sql("""SELECT ifnull(sum(debit-credit), 0)balance
-									FROM `tabGL Entry` where account like '5001%%'
+		gl_amount = frappe.db.sql("""SELECT ifnull(sum((debit-credit) * exch), 0)balance FROM (
+									SELECT debit, credit,
+									(CASE
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'AED' THEN %(aed_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'RUB' THEN %(rub_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'EUR' THEN %(eur_exch)s
+										ELSE 1
+									END)exch
+									FROM `tabGL Entry` gl where account like '5001%%'
 									and is_cancelled = 0 and cluster in (SELECT name FROM `tabcluster` where custom_cluster_type = 'Revenue') 
-									and year(posting_date) = %(fiscal_year)s and MONTHNAME(posting_date) = %(month)s""",
-									{'month': month, 'type': type, 'fiscal_year': fiscal_year}, as_dict=True)
+									and year(posting_date) = %(fiscal_year)s and MONTHNAME(posting_date) = %(month)s)a1""",
+									{'month': month, 'type': type, 'fiscal_year': fiscal_year,
+		  							'aed_exch': aed_exch, 'rub_exch': rub_exch, 'eur_exch': eur_exch}, as_dict=True)
 		if gl_amount:
 			return gl_amount[0].balance
 		else:
@@ -439,13 +496,21 @@ def get_margin_actual_amount(month, fiscal_year, type):
 
 	if type == "Others":
 
-		gl_amount = frappe.db.sql("""SELECT ifnull(sum(debit-credit), 0)balance
-									FROM `tabGL Entry`gl, `tabAccount` acc where 
+		gl_amount = frappe.db.sql("""SELECT ifnull(sum((debit-credit) * exch), 0)balance FROM (
+									SELECT debit, credit,
+									(CASE
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'AED' THEN %(aed_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'RUB' THEN %(rub_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'EUR' THEN %(eur_exch)s
+										ELSE 1
+									END)exch
+									FROM `tabGL Entry` gl, `tabAccount` acc where 
 									gl.account = acc.name and gl.account like '5%%'
 									and is_cancelled = 0 and cluster in (SELECT name FROM `tabcluster` where custom_cluster_type = 'Revenue') 
 									and year(posting_date) = %(fiscal_year)s AND MONTHNAME(posting_date) = %(month)s
-									and acc.account_number not in (5001)""",
-									{'month': month, 'type': type, 'fiscal_year': fiscal_year}, as_dict=True)
+									and acc.account_number not in (5001))a1""",
+									{'month': month, 'type': type, 'fiscal_year': fiscal_year,
+		  							'aed_exch': aed_exch, 'rub_exch': rub_exch, 'eur_exch': eur_exch}, as_dict=True)
 		if gl_amount:
 			return gl_amount[0].balance
 		else:
@@ -453,13 +518,21 @@ def get_margin_actual_amount(month, fiscal_year, type):
 	
 	if type == "Dev Cost":
 
-		gl_amount = frappe.db.sql("""SELECT ifnull(sum(debit-credit), 0)balance
-									FROM `tabGL Entry`gl, `tabAccount` acc where 
+		gl_amount = frappe.db.sql("""SELECT ifnull(sum((debit-credit) * exch), 0)balance FROM (
+									SELECT debit, credit,
+									(CASE
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'AED' THEN %(aed_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'RUB' THEN %(rub_exch)s
+										WHEN (SELECT default_currency FROM `tabCompany` c where c.name = gl.company) = 'EUR' THEN %(eur_exch)s
+										ELSE 1
+									END)exch
+									FROM `tabGL Entry` gl, `tabAccount` acc where 
 									gl.account = acc.name and gl.account like '1311%%'
 									and is_cancelled = 0 and cluster in (SELECT name FROM `tabcluster` where custom_cluster_type = 'Development') 
 									and year(posting_date) = %(fiscal_year)s AND MONTHNAME(posting_date) = %(month)s
-									and acc.account_number not in (5001)""",
-									{'month': month, 'type': type, 'fiscal_year': fiscal_year}, as_dict=True)
+									and acc.account_number not in (5001))a1""",
+									{'month': month, 'type': type, 'fiscal_year': fiscal_year,
+		  							'aed_exch': aed_exch, 'rub_exch': rub_exch, 'eur_exch': eur_exch}, as_dict=True)
 		if gl_amount:
 			return gl_amount[0].balance
 		else:
