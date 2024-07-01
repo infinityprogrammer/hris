@@ -12,3 +12,6 @@ def set_employee_number(self, args):
     
     if self.date_of_joining:
         self.custom_length_of_service = getdate(today()).year - getdate(self.date_of_joining).year
+
+def set_contract_name(self, args):
+    self.name = self.custom_agreement_no

@@ -122,6 +122,11 @@ doc_events = {
             "hris.hris.events.set_employee_number",
         ],
     },
+    "Contract":{
+        "autoname": [
+            "hris.hris.events.set_contract_name",
+        ],
+    },
 }
 
 # Scheduled Tasks
@@ -291,7 +296,8 @@ fixtures = [
 				"Employee-custom_language_2",
 				"Employee-custom_language_2_level",
                 "cluster-custom_cluster_type",
-                "Monthly Distribution Percentage-custom_amount_allocation"
+                "Monthly Distribution Percentage-custom_amount_allocation",
+                "Contract-custom_agreement_no"
             ]
         ]
     ]},
