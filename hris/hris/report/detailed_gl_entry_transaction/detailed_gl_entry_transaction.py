@@ -236,6 +236,6 @@ def get_columns(filters):
 			"label": _("Remarks"),
 			"fieldname": "remarks",
 			"fieldtype": "Data",
-			"width": 130,
+			"width": 300,
 		}
 	]

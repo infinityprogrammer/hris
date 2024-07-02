@@ -297,7 +297,8 @@ fixtures = [
 				"Employee-custom_language_2_level",
                 "cluster-custom_cluster_type",
                 "Monthly Distribution Percentage-custom_amount_allocation",
-                "Contract-custom_agreement_no"
+                "Contract-custom_agreement_no",
+                "Employee-custom_cluster_assignment_type"
             ]
         ]
     ]},
