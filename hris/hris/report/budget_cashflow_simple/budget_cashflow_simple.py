@@ -4,7 +4,7 @@
 # import frappe
 import frappe
 from frappe import _, _dict
-from frappe.utils import cstr, getdate, cint, add_to_date, get_last_day,add_days
+from frappe.utils import cstr, getdate, cint, add_to_date, get_last_day, add_days, flt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -46,19 +46,19 @@ def get_data(filters):
 		data.append(opening_customer)
 
 	sum_of_money_in = {}
-	sum_of_money_in['title'] = f"<b>Sum of Money In</b>"
+	sum_of_money_in['title'] = f"<b>Customer - Sum of Money In</b>"
 
 	sum_of_money_in['opening_till'] = get_all_customer_opening_outstanding(filters)
 	sum_of_money_in["current_month_from"] = get_current_month_balance_all_customer(filters)
 
-	sum_of_money_in["next_1"] = get_outstanding_from_to_all_customer(customer.customer, filters, 1)
-	sum_of_money_in["next_2"] = get_outstanding_from_to_all_customer(customer.customer, filters, 2)
-	sum_of_money_in["next_3"] = get_outstanding_from_to_all_customer(customer.customer, filters, 3)
+	sum_of_money_in["next_1"] = get_outstanding_from_to_all_customer(filters, 1)
+	sum_of_money_in["next_2"] = get_outstanding_from_to_all_customer(filters, 2)
+	sum_of_money_in["next_3"] = get_outstanding_from_to_all_customer(filters, 3)
 
 	data.append(sum_of_money_in)
 
 	cash_out_title = {}
-	cash_out_title['title'] = f"<b>Cash Out flow (Money-Out)</b>"
+	cash_out_title['title'] = f"<b>Cash Out flow (Money - Out)</b>"
 	data.append(cash_out_title)
 
 	supplier_list = get_dist_supplier(filters)
@@ -78,16 +78,111 @@ def get_data(filters):
 		data.append(opening_supplier)
 	
 	sum_of_money_out = {}
-	sum_of_money_out['title'] = f"<b>Sum of Money Out</b>"
-	sum_of_money_out['opening_till'] = get_all_supplier_opening_outstanding(filters)
+	sum_of_money_out['title'] = f"<b>Supplier - Sum of Money Out</b>"
+	sum_of_money_out['opening_till'] = get_all_supplier_opening_outstanding(filters) *-1
 
-	sum_of_money_out["current_month_from"] = get_current_month_balance_all_supplier(filters)
+	sum_of_money_out["current_month_from"] = get_current_month_balance_all_supplier(filters) *-1
 
-	sum_of_money_out["next_1"] = get_outstanding_from_to_all_supplier(customer.customer, filters, 1)
-	sum_of_money_out["next_2"] = get_outstanding_from_to_all_supplier(customer.customer, filters, 2)
-	sum_of_money_out["next_3"] = get_outstanding_from_to_all_supplier(customer.customer, filters, 3)
+	sum_of_money_out["next_1"] = get_outstanding_from_to_all_supplier(filters, 1) *-1
+	sum_of_money_out["next_2"] = get_outstanding_from_to_all_supplier(filters, 2) *-1
+	sum_of_money_out["next_3"] = get_outstanding_from_to_all_supplier(filters, 3) *-1
 	data.append(sum_of_money_out)
 
+
+	account_title = {}
+	account_title['title'] = f"<b>Account Entry (Money - Out)</b>"
+	data.append(account_title)
+
+	accounts = get_dist_accounts(filters)
+
+	for account in accounts:
+		account_val = {}
+		account_val["title"] = account.account
+		
+		account_val["opening_till"] = 0
+
+		account_val["current_month_from"] = get_account_budget_value(account.account, filters, 0)
+
+		account_val["next_1"] = get_account_budget_value(account.account, filters, 1)
+		account_val["next_2"] = get_account_budget_value(account.account, filters, 2)
+		account_val["next_3"] = get_account_budget_value(account.account, filters, 3)
+
+		data.append(account_val)
+	
+	account_sum_title = {}
+	account_sum_title['title'] = f"<b>Account - Sum of Money Out</b>"
+	account_sum_title["opening_till"] = 0
+
+	account_sum_title["current_month_from"] = get_all_account_budget_value(filters, 0) * -1
+
+	account_sum_title["next_1"] = get_all_account_budget_value(filters, 1) * -1
+	account_sum_title["next_2"] = get_all_account_budget_value(filters, 2) * -1
+	account_sum_title["next_3"] = get_all_account_budget_value(filters, 3) * -1
+
+	data.append(account_sum_title)
+
+
+	net_cash_flow = {}
+	net_cash_flow['title'] = f"<b>Net Cashflow</b>"
+	
+	cash_in = get_all_customer_opening_outstanding(filters)
+	supplier_out = get_all_supplier_opening_outstanding(filters) *-1
+	account_out = 0
+	
+
+	net_cash_flow["opening_till"] = flt(cash_in)+flt(supplier_out)+flt(account_out)
+
+
+	current_month_in = get_current_month_balance_all_customer(filters)
+	current_month_supplier_out = get_current_month_balance_all_supplier(filters) *-1
+	current_month_account_out = get_all_account_budget_value(filters, 0) * -1
+
+	net_cash_flow["current_month_from"] = flt(current_month_in)+flt(current_month_supplier_out)+flt(current_month_account_out)
+
+	first_in_customer = get_outstanding_from_to_all_customer(filters, 1)
+	first_out_supplier = get_outstanding_from_to_all_supplier(filters, 1) *-1
+	first_out_account = get_all_account_budget_value(filters, 1) * -1
+
+	net_cash_flow["next_1"] = flt(first_in_customer)+flt(first_out_supplier)+flt(first_out_account)
+
+	second_in_customer = get_outstanding_from_to_all_customer(filters, 2)
+	second_out_supplier = get_outstanding_from_to_all_supplier(filters, 2) *-1
+	second_out_account = get_all_account_budget_value(filters, 2) * -1
+
+	net_cash_flow["next_2"] = flt(second_in_customer)+flt(second_out_supplier)+flt(second_out_account)
+
+	third_in_customer = get_outstanding_from_to_all_customer(filters, 3)
+	third_out_supplier = get_outstanding_from_to_all_supplier(filters, 3) *-1
+	third_out_account = get_all_account_budget_value(filters, 3) * -1
+
+	net_cash_flow["next_3"] = flt(third_in_customer)+flt(third_out_supplier)+flt(third_out_account)
+
+	data.append(net_cash_flow)
+
+	ending_balance = {}
+	ending_balance['title'] = f"<b>Ending Balance</b>"
+	ending_balance["opening_till"] = net_cash_flow["opening_till"] + flt(context_opening["opening_till"])
+
+	ending_balance["current_month_from"] = net_cash_flow["current_month_from"]
+
+	ending_balance["next_1"] = net_cash_flow["next_1"]
+	ending_balance["next_2"] = net_cash_flow["next_2"]
+	ending_balance["next_3"] = net_cash_flow["next_3"]
+
+	data.append(ending_balance)
+
+	data[0]["current_month_from"] = ending_balance["opening_till"]
+	data[-1]["current_month_from"] = data[-1]["current_month_from"]+ending_balance["opening_till"]
+
+	data[0]["next_1"] = data[-1]["current_month_from"]
+	data[-1]["next_1"] += data[0]["next_1"]
+
+	data[0]["next_2"] = data[-1]["next_1"]
+	data[-1]["next_2"] += data[0]["next_2"]
+
+	data[0]["next_3"] = data[-1]["next_2"]
+	data[-1]["next_3"] += data[0]["next_3"]
+		
 	return data
 
 def get_opening(filters):
@@ -127,7 +222,7 @@ def get_dist_customer(filters):
         """
 		SELECT distinct customer
 		FROM `tabSales Invoice` where company = %(company)s
-		and docstatus = 1 and outstanding_amount != 0 
+		and docstatus = 1 and outstanding_amount not between -1 and 200 
 		and posting_date <= %(last_date)s
 		""",{'company': filters.get("company"), 'last_date': last_date}, as_dict=1,
     )
@@ -251,7 +346,7 @@ def get_customer_opening_outstanding(customer, filters):
 		SELECT ifnull(sum(outstanding_amount * conversion_rate), 0)outstanding_amount
 		FROM `tabSales Invoice` where company = %(company)s
 		and docstatus = 1 and customer = %(customer)s
-		and due_date <= %(due_date)s;
+		and due_date <= %(due_date)s and outstanding_amount not between -1 and 200
 		""",{'company': filters.get("company"), 'customer': customer, 'due_date': filters.get("till_date")}, as_dict=1,
     )
 
@@ -312,7 +407,7 @@ def get_outstanding_from_to(customer, filters, index):
 		SELECT ifnull(sum(outstanding_amount * conversion_rate), 0)outstanding_amount
 		FROM `tabSales Invoice` where company = %(company)s
 		and docstatus = 1 and customer = %(customer)s
-		and due_date between %(first_day)s and %(last_day)s;
+		and due_date between %(first_day)s and %(last_day)s and outstanding_amount not between -1 and 200
 		""",{'company': filters.get("company"), 'customer': customer, 'first_day': first_day, 'last_day': last_day}, as_dict=1,
     )
 
@@ -406,7 +501,7 @@ def get_current_month_balance_all_supplier(filters):
 
 	return outstand[0].outstanding_amount
 
-def get_outstanding_from_to_all_customer(customer, filters, index):
+def get_outstanding_from_to_all_customer(filters, index):
 	
 	first_day, last_day = get_month_first_last_days(filters.get("till_date"), index)
 
@@ -416,12 +511,12 @@ def get_outstanding_from_to_all_customer(customer, filters, index):
 		FROM `tabSales Invoice` where company = %(company)s
 		and docstatus = 1
 		and due_date between %(first_day)s and %(last_day)s;
-		""",{'company': filters.get("company"), 'customer': customer, 'first_day': first_day, 'last_day': last_day}, as_dict=1,
+		""",{'company': filters.get("company"), 'first_day': first_day, 'last_day': last_day}, as_dict=1,
     )
 
 	return outstand[0].outstanding_amount
 
-def get_outstanding_from_to_all_supplier(customer, filters, index):
+def get_outstanding_from_to_all_supplier(filters, index):
 	
 	first_day, last_day = get_month_first_last_days(filters.get("till_date"), index)
 
@@ -431,7 +526,86 @@ def get_outstanding_from_to_all_supplier(customer, filters, index):
 		FROM `tabPurchase Invoice` where company = %(company)s
 		and docstatus = 1
 		and due_date between %(first_day)s and %(last_day)s;
-		""",{'company': filters.get("company"), 'customer': customer, 'first_day': first_day, 'last_day': last_day}, as_dict=1,
+		""",{'company': filters.get("company"), 'first_day': first_day, 'last_day': last_day}, as_dict=1,
     )
 
 	return outstand[0].outstanding_amount
+
+def get_dist_accounts(filters):
+	company = filters.get("company")
+	year_date = getdate(filters.get("till_date")).year
+
+	dist_accounts = frappe.db.sql(
+        """
+		SELECT account FROM `tabAccount Budget` 
+		where company = %(company)s
+		and fiscal_year = %(fiscal_year)s
+		""",{'company': filters.get("company"), 'fiscal_year': year_date}, as_dict=1,
+    )
+
+	return dist_accounts
+
+def get_account_opening_balance(filters, account):
+	opening_date = filters.get("till_date")
+
+	account_balance = frappe.db.sql(
+        """
+		SELECT ifnull((sum(debit) - sum(credit)), 0)balance FROM `tabGL Entry` 
+		where account = %(account)s
+		and is_cancelled = 0 and posting_date <= %(posting_date)s
+		""",{'account': account, 'posting_date': opening_date}, as_dict=1,
+    )
+
+	return account_balance[0].balance
+
+def get_current_month_from_balance_account(account, filters):
+
+	opening_date = filters.get("till_date")
+	
+	first_day = add_days(filters.get("till_date"), 1)
+
+	last_day = get_last_day(opening_date)
+
+	account_balance = frappe.db.sql(
+        """
+		SELECT ifnull((sum(debit) - sum(credit)), 0)balance FROM `tabGL Entry` 
+		where account = %(account)s
+		and is_cancelled = 0 and posting_date between %(first_day)s and %(last_day)s
+		""",{'account': account, 'first_day': first_day, 'last_day': last_day }, as_dict=1,
+    )
+
+	return account_balance[0].balance
+
+def get_account_budget_value(account, filters, index):
+	first_day, last_day = get_month_first_last_days(filters.get("till_date"), index)
+
+	month_name = getdate(first_day).strftime('%B')
+	year = getdate(first_day).year
+
+	allocate_amount = frappe.db.sql(
+        """
+		SELECT ifnull(custom_amount_allocation, 0)custom_amount_allocation
+		FROM `tabAccount Budget` a, `tabMonthly Distribution Percentage` b
+		where a.name = b.parent and parenttype = 'Account Budget'
+		and fiscal_year = %(year)s and month = %(month_name)s and account = %(account)s
+		""",{'account': account, 'month_name': month_name, 'year': year }, as_dict=1,
+    )
+
+	return allocate_amount[0].custom_amount_allocation
+
+def get_all_account_budget_value(filters, index):
+	first_day, last_day = get_month_first_last_days(filters.get("till_date"), index)
+
+	month_name = getdate(first_day).strftime('%B')
+	year = getdate(first_day).year
+
+	allocate_amount = frappe.db.sql(
+        """
+		SELECT ifnull(sum(custom_amount_allocation), 0)custom_amount_allocation
+		FROM `tabAccount Budget` a, `tabMonthly Distribution Percentage` b
+		where a.name = b.parent and parenttype = 'Account Budget'
+		and fiscal_year = %(year)s and month = %(month_name)s
+		""",{'month_name': month_name, 'year': year }, as_dict=1,
+    )
+
+	return allocate_amount[0].custom_amount_allocation
