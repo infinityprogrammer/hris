@@ -50,7 +50,12 @@ def get_data(filters):
 				due_date,
 				DATEDIFF(curdate(), due_date) AS due_days,
 				outstanding_amount,
-				(outstanding_amount * conversion_rate)base_outstanding_amount,
+				(outstanding_amount * conversion_rate)base_outstanding_amount1,
+				(IF((SELECT account_currency from `tabAccount` acc where acc.name = inv.debit_to) =
+                (SELECT default_currency FROM `tabCompany` where name = inv.company), outstanding_amount, 
+                (outstanding_amount * conversion_rate)))base_outstanding_amount,
+				(IF((SELECT account_currency from `tabAccount` acc where acc.name = inv.debit_to) = inv.currency, outstanding_amount, 
+                (outstanding_amount/conversion_rate)))inv_outstanding_amount,
 				(DATEDIFF(curdate(), due_date) * outstanding_amount) AS val_out
 			FROM `tabSales Invoice` inv
 			WHERE
@@ -83,7 +88,7 @@ def get_data(filters):
 			context['currency'] = inv.currency
 			context['due_date'] = inv.due_date
 			context['due_days'] = inv.due_days
-			context['outstanding_amount'] = inv.outstanding_amount
+			context['outstanding_amount'] = inv.inv_outstanding_amount
 			
 			context['base_currency'] = inv.base_currency
 			context['base_outstanding_amount'] = inv.base_outstanding_amount
