@@ -26,15 +26,15 @@ frappe.query_reports["Budget Cashflow Simple"] = {
 			"reqd": 1,
 			"default": frappe.datetime.get_today(),
 		},
-		{
-			"fieldname":"company_currency",
-			"label": __("Company Currency"),
-			"fieldtype": "Data",
-		},
-		{
-			"fieldname":"exchange_rate",
-			"label": __("Exchange Rate"),
-			"fieldtype": "Float",
-		},
+		// {
+		// 	"fieldname":"company_currency",
+		// 	"label": __("Company Currency"),
+		// 	"fieldtype": "Data",
+		// },
+		// {
+		// 	"fieldname":"exchange_rate",
+		// 	"label": __("Exchange Rate"),
+		// 	"fieldtype": "Float",
+		// },
 	]
 };
