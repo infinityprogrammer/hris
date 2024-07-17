@@ -298,7 +298,9 @@ fixtures = [
                 "cluster-custom_cluster_type",
                 "Monthly Distribution Percentage-custom_amount_allocation",
                 "Contract-custom_agreement_no",
-                "Employee-custom_cluster_assignment_type"
+                "Employee-custom_cluster_assignment_type",
+                "Employee-custom_job_history",
+                "Employee-custom_grade_history"
             ]
         ]
     ]},

@@ -20,7 +20,7 @@
    "in_list_view": 1,
    "in_preview": 1,
    "label": "Component",
-   "options": "\nIncome Tax\nSocial Security Contribution\nPension Fund Contribution\nMedical Insurance Payment\nRelocation Payment\nContingent Liability\nContractual Liability"
+   "options": "\nIncome Tax\nSocial Security Contribution\nPension Fund Contribution\nMedical Insurance Payment\nRelocation Payment\nStatutory Liability\nContractual Liability"
   },
   {
    "fieldname": "amount",
@@ -64,7 +64,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-24 15:12:38.858310",
+ "modified": "2024-07-17 10:09:59.264672",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Salary Other Component",
