@@ -6,11 +6,16 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "sum_gross",
+  "currency",
+  "type",
+  "mode",
+  "payroll_company",
   "effective_date",
   "change_type",
-  "reason",
+  "comment",
   "amount",
-  "comment"
+  "reason"
  ],
  "fields": [
   {
@@ -45,12 +50,50 @@
    "in_list_view": 1,
    "in_preview": 1,
    "label": "Comment"
+  },
+  {
+   "fieldname": "sum_gross",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Sum Gross"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Currency"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Type",
+   "options": "\nMonthly\nHourly"
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Mode",
+   "options": "\nBank\nCash\nCheque"
+  },
+  {
+   "fieldname": "payroll_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Payroll Company",
+   "options": "Company"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-24 10:06:35.425008",
+ "modified": "2024-07-29 10:40:51.997232",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Salary History",
