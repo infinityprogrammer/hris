@@ -30,7 +30,7 @@
   },
   {
    "fieldname": "grade_effective_to",
-   "fieldtype": "Data",
+   "fieldtype": "Date",
    "in_list_view": 1,
    "in_preview": 1,
    "label": "Grade Effective To"
@@ -46,7 +46,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-17 10:04:50.263525",
+ "modified": "2024-08-07 10:06:46.137840",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Grade History",

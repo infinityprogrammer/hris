@@ -16,7 +16,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_preview": 1,
-   "label": "Dependents Name"
+   "label": "Dependent Name"
   },
   {
    "fieldname": "dependent_date_of_birth",
@@ -27,17 +27,16 @@
   },
   {
    "fieldname": "relationship_with_dependents",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "in_preview": 1,
-   "label": "Relationship with Dependents",
-   "options": "\nSpouse\nParent\nChild\nSibling"
+   "label": "Relationship with Dependent"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-24 09:30:53.082577",
+ "modified": "2024-08-07 09:53:01.027680",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Employee Dependent",

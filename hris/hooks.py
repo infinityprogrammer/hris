@@ -247,7 +247,6 @@ fixtures = [
 				"Employee-custom_length_of_service",
 				"Employee-custom_contract_date_to",
 				"Employee-custom_contract_date_from",
-				"Employee-custom_column_break_0alwu",
 				"Employee-custom_contract_number",
 				"Employee-custom_contract_name",
 				"Employee-custom_column_break_khc3p",
@@ -309,7 +308,6 @@ fixtures = [
                 "Employee-custom_family",
                 "Employee-custom_education__knowledge",
                 "Employee-custom_column_break_ofqhp",
-                "Employee-custom_column_break_kaidy",
                 "Employee-custom_column_break_yxlgr",
                 "Employee-custom_column_break_phltl",
                 "Employee-custom_contract_history_data",
@@ -346,7 +344,9 @@ fixtures = [
                 "Employee-custom_bonus_history",
                 "Employee-custom_bonus_history_data",
                 "Employee-custom_contingent_liability",
-                "Employee-custom_contingent"
+                "Employee-custom_contingent",
+                "Employee-custom_salary_details",
+                "Employee-custom_exit"
             ]
         ]
     ]},
