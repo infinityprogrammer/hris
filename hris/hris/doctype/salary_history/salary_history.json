@@ -60,10 +60,11 @@
   },
   {
    "fieldname": "currency",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "in_preview": 1,
-   "label": "Currency"
+   "label": "Currency",
+   "options": "Currency"
   },
   {
    "fieldname": "type",
@@ -93,7 +94,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-29 10:40:51.997232",
+ "modified": "2024-08-13 14:41:43.847914",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Salary History",
