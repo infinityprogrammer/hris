@@ -1,7 +1,8 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-04-24 15:05:00.456521",
+ "creation": "2024-08-19 16:29:37.005549",
+ "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -18,39 +19,6 @@
   "reason"
  ],
  "fields": [
-  {
-   "fieldname": "effective_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "in_preview": 1,
-   "label": "Effective Date"
-  },
-  {
-   "fieldname": "change_type",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Change Type"
-  },
-  {
-   "fieldname": "reason",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Reason"
-  },
-  {
-   "fieldname": "amount",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "in_preview": 1,
-   "label": "Amount"
-  },
-  {
-   "fieldname": "comment",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_preview": 1,
-   "label": "Comment"
-  },
   {
    "fieldname": "sum_gross",
    "fieldtype": "Float",
@@ -72,7 +40,7 @@
    "in_list_view": 1,
    "in_preview": 1,
    "label": "Type",
-   "options": "\nMonthly\nHourly"
+   "options": "\nMonthly\nHourly\nQuarterly\nYearly"
   },
   {
    "fieldname": "mode",
@@ -89,15 +57,48 @@
    "in_preview": 1,
    "label": "Payroll Company",
    "options": "Company"
+  },
+  {
+   "fieldname": "effective_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Effective Date"
+  },
+  {
+   "fieldname": "change_type",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Change Type"
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Comment"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Amount"
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Reason"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-19 16:32:52.818135",
+ "modified": "2024-08-19 16:32:33.023587",
  "modified_by": "Administrator",
  "module": "Hris",
- "name": "Salary History",
+ "name": "Bonus History",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",
