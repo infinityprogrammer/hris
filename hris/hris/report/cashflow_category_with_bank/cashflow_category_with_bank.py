@@ -21,7 +21,7 @@ def get_data(filters):
 		"""
 		SELECT gl.company, posting_date,cashflow_category, 
 		account, gl.account_currency, debit_in_account_currency, credit_in_account_currency,
-		voucher_no, voucher_type, party_type, party, against_voucher, remarks
+		voucher_no, voucher_type, party_type, party, against_voucher, remarks, against
 		FROM `tabGL Entry` gl, `tabAccount` acc 
 		where gl.account = acc.name and acc.account_type in ('Bank', 'Cash')
 		and gl.is_cancelled = 0 and posting_date between %(from_date)s and %(to_date)s
@@ -105,6 +105,12 @@ def get_columns(filters):
 			"fieldname": "party",
 			"fieldtype": "Data",
 			"width": 100,
+		},
+		{
+			"label": _("Against"),
+			"fieldname": "against",
+			"fieldtype": "Data",
+			"width": 130,
 		},
 		{
 			"label": _("Against Voucher"),
