@@ -10,9 +10,28 @@ from frappe.utils import getdate, now_datetime, nowdate, flt, cint, get_datetime
 def execute(filters=None):
 	columns, data = [], []
 	data = get_data(filters)
+
+	for row in data:
+		cluster = get_customer_cluster(row.get("customer"))
+		row["cluster"] = cluster
+
 	columns = get_columns(filters)
 
 	return columns, data
+
+def get_customer_cluster(customer):
+
+	cluster = frappe.db.sql(
+		"""
+		SELECT cluster
+		FROM `tabSales Invoice`
+		where docstatus = 1 and customer = %(customer)s
+		limit 1""",{'customer': customer}, as_dict=1)
+	
+	if cluster:
+		return cluster[0].cluster
+	else:
+		return
 
 def get_data(filters):
 	si_data = []
@@ -150,6 +169,13 @@ def get_columns(filters):
 			"fieldtype": "Link",
 			"options": "Customer",
 			"width": 250,
+		},
+		{
+			"label": _("Cluster"),
+			"fieldname": "cluster",
+			"fieldtype": "Link",
+			"options": "cluster",
+			"width": 120,
 		},
 		{
 			"label": _("Posting Date"),

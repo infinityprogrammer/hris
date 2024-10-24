@@ -348,6 +348,7 @@ fixtures = [
                 "Employee-custom_salary_details",
                 "Employee-custom_exit",
                 "Employee-custom_time_zone_new",
+                "Customer-custom_cluster"
             ]
         ]
     ]},
