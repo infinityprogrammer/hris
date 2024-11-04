@@ -112,6 +112,7 @@ def get_all_customer(filters):
 		-- and customer = 'HUMANS OOO'
 		and year(posting_date) = %(fiscal_year)s""",{'fiscal_year': filters.get('fiscal_year')}, as_dict=1)
 	
+	
 	return all_customer
 
 def get_columns(filters):
