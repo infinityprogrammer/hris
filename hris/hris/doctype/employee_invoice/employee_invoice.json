@@ -1,0 +1,183 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-11-11 13:44:02.666764",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "employee",
+  "employee_name",
+  "contract_name",
+  "column_break_nmddt",
+  "invoice_date",
+  "no_of_days_worked",
+  "amended_from",
+  "salary_details_section",
+  "salary_amount",
+  "column_break_iat2d",
+  "salary_currency",
+  "bank_details_section",
+  "account_holder_name",
+  "beneficiary_bank_name",
+  "column_break_reson",
+  "account_number",
+  "swift_code",
+  "section_break_1cldf",
+  "signature"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_nmddt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "invoice_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Invoice Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Employee Invoice",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "EMP/INV/.###",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "EMP/INV/.###",
+   "print_hide": 1
+  },
+  {
+   "fetch_from": "employee.custom_contract_name",
+   "fieldname": "contract_name",
+   "fieldtype": "Data",
+   "label": "Contract Name",
+   "read_only": 1
+  },
+  {
+   "default": "18",
+   "fieldname": "no_of_days_worked",
+   "fieldtype": "Float",
+   "label": "No Of Days Worked"
+  },
+  {
+   "fieldname": "salary_details_section",
+   "fieldtype": "Section Break",
+   "label": "Salary Details"
+  },
+  {
+   "fieldname": "salary_amount",
+   "fieldtype": "Currency",
+   "label": "Salary Amount",
+   "options": "salary_currency"
+  },
+  {
+   "fieldname": "column_break_iat2d",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "USD",
+   "fetch_from": "employee.salary_currency",
+   "fieldname": "salary_currency",
+   "fieldtype": "Link",
+   "label": "Salary Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "bank_details_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Details"
+  },
+  {
+   "fetch_from": "employee.iban",
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number"
+  },
+  {
+   "fetch_from": "employee.custom_receiver_name",
+   "fieldname": "account_holder_name",
+   "fieldtype": "Data",
+   "label": "Account Holder Name"
+  },
+  {
+   "fetch_from": "employee.bank_name",
+   "fieldname": "beneficiary_bank_name",
+   "fieldtype": "Data",
+   "label": "Beneficiary Bank Name"
+  },
+  {
+   "fieldname": "column_break_reson",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.custom_swift_code_of_beneficiary_bank",
+   "fieldname": "swift_code",
+   "fieldtype": "Data",
+   "label": "SWIFT Code"
+  },
+  {
+   "fieldname": "section_break_1cldf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "signature",
+   "fieldtype": "Signature",
+   "label": "Signature"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-11-11 14:04:07.305480",
+ "modified_by": "Administrator",
+ "module": "Hris",
+ "name": "Employee Invoice",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

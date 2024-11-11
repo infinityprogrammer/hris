@@ -1,0 +1,33 @@
+[
+ {
+  "absolute_value": 0,
+  "align_labels_right": 0,
+  "css": null,
+  "custom_format": 0,
+  "default_print_language": "en",
+  "disabled": 0,
+  "doc_type": "Employee Invoice",
+  "docstatus": 0,
+  "doctype": "Print Format",
+  "font": null,
+  "font_size": 14,
+  "format_data": "[{\"fieldname\": \"print_heading_template\", \"fieldtype\": \"Custom HTML\", \"options\": \"<div class=\\\"print-heading\\\">\\t\\t\\t\\t<h2><div>Employee Invoice</div><br><small class=\\\"sub-heading\\\">{{ doc.name }}</small>\\t\\t\\t\\t</h2></div>\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"employee\", \"print_hide\": 0, \"label\": \"Employee\"}, {\"fieldname\": \"employee_name\", \"print_hide\": 0, \"label\": \"Employee Name\"}, {\"fieldname\": \"contract_name\", \"print_hide\": 0, \"label\": \"Contract Name\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"invoice_date\", \"print_hide\": 0, \"label\": \"Invoice Date\"}, {\"fieldname\": \"no_of_days_worked\", \"print_hide\": 0, \"label\": \"No Of Days Worked\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Salary Details\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"salary_amount\", \"print_hide\": 0, \"label\": \"Salary Amount\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"salary_currency\", \"print_hide\": 0, \"label\": \"Salary Currency\"}, {\"fieldtype\": \"Section Break\", \"label\": \"Bank Details\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"account_holder_name\", \"print_hide\": 0, \"label\": \"Account Holder Name\"}, {\"fieldname\": \"beneficiary_bank_name\", \"print_hide\": 0, \"label\": \"Beneficiary Bank Name\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"account_number\", \"print_hide\": 0, \"label\": \"Account Number\"}, {\"fieldname\": \"swift_code\", \"print_hide\": 0, \"label\": \"SWIFT Code\"}, {\"fieldtype\": \"Section Break\", \"label\": \"\"}, {\"fieldtype\": \"Column Break\"}, {\"fieldname\": \"signature\", \"print_hide\": 0, \"label\": \"Signature\"}]",
+  "html": null,
+  "line_breaks": 0,
+  "margin_bottom": 15.0,
+  "margin_left": 15.0,
+  "margin_right": 15.0,
+  "margin_top": 15.0,
+  "modified": "2024-11-11 14:07:47.226003",
+  "module": "Hris",
+  "name": "Salary Invoice",
+  "page_number": "Hide",
+  "print_format_builder": 0,
+  "print_format_builder_beta": 0,
+  "print_format_type": "Jinja",
+  "raw_commands": null,
+  "raw_printing": 0,
+  "show_section_headings": 0,
+  "standard": "No"
+ }
+]

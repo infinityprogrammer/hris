@@ -364,4 +364,16 @@ fixtures = [
             ],
         ],
     },
+    {
+        "dt": "Print Format",
+        "filters": [
+            [
+                "name", 
+                "in", 
+                [
+                    "Salary Invoice",
+                ],
+            ],
+        ],
+    },
 ]
