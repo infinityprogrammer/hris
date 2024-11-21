@@ -67,6 +67,7 @@ def get_data(filters):
 				and posting_date <= %(posting_date)s
 				AND docstatus = 1
 				AND customer_code = %(customer_code)s
+				AND DATEDIFF(curdate(), due_date) >= 0
 				AND company = %(company)s """,
 			{
 				'customer_code': customer.customer_code,
