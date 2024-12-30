@@ -372,7 +372,8 @@ fixtures = [
                 "in", 
                 [
                     "Salary Invoice",
-                    "Salary Invoice - 1"
+                    "Salary Invoice - 1",
+                    "Pay Slip"
                 ],
             ],
         ],
