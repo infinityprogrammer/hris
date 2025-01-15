@@ -15,7 +15,10 @@
   "date",
   "department",
   "pay_period",
-  "amended_from"
+  "amended_from",
+  "salary_components_section",
+  "details",
+  "total_salary"
  ],
  "fields": [
   {
@@ -76,12 +79,29 @@
    "fieldtype": "Data",
    "label": "Pay Period",
    "read_only": 1
+  },
+  {
+   "fieldname": "salary_components_section",
+   "fieldtype": "Section Break",
+   "label": "Salary Components"
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Table",
+   "label": "Details",
+   "options": "Salary Breakup"
+  },
+  {
+   "fieldname": "total_salary",
+   "fieldtype": "Currency",
+   "label": "Total Salary",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-30 11:41:54.843993",
+ "modified": "2025-01-15 14:46:51.164693",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Request Pay Slip",

@@ -18,8 +18,12 @@
   "amended_from",
   "salary_details_section",
   "salary_amount",
+  "travel_expense",
+  "bonus",
+  "commission",
   "column_break_iat2d",
   "salary_currency",
+  "total_invoice_amount",
   "bank_details_section",
   "account_holder_name",
   "beneficiary_bank_name",
@@ -34,7 +38,7 @@
    "fieldname": "employee",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Employee",
+   "label": "Consultant ID",
    "options": "Employee",
    "reqd": 1
   },
@@ -42,7 +46,7 @@
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "label": "Employee Name",
+   "label": "Consultant Name",
    "read_only": 1
   },
   {
@@ -96,7 +100,7 @@
   {
    "fieldname": "salary_amount",
    "fieldtype": "Currency",
-   "label": "Salary Amount",
+   "label": "Consultancy Fees",
    "options": "salary_currency"
   },
   {
@@ -114,6 +118,7 @@
   {
    "fieldname": "bank_details_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Bank Details"
   },
   {
@@ -152,12 +157,36 @@
    "fieldname": "signature",
    "fieldtype": "Signature",
    "label": "Signature"
+  },
+  {
+   "fieldname": "travel_expense",
+   "fieldtype": "Currency",
+   "label": "Travel Expense",
+   "options": "salary_currency"
+  },
+  {
+   "fieldname": "bonus",
+   "fieldtype": "Currency",
+   "label": "Bonus",
+   "options": "salary_currency"
+  },
+  {
+   "fieldname": "commission",
+   "fieldtype": "Currency",
+   "label": "Commission",
+   "options": "salary_currency"
+  },
+  {
+   "fieldname": "total_invoice_amount",
+   "fieldtype": "Currency",
+   "label": "Total Invoice Amount",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-11 14:04:07.305480",
+ "modified": "2025-01-15 14:07:16.372748",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Employee Invoice",
