@@ -1,0 +1,23 @@
+[
+ {
+  "call_type": "1:1 Call",
+  "docstatus": 0,
+  "doctype": "Employee Call Type",
+  "modified": "2025-06-16 13:02:12.479869",
+  "name": "1:1 Call"
+ },
+ {
+  "call_type": "Performance Review",
+  "docstatus": 0,
+  "doctype": "Employee Call Type",
+  "modified": "2025-06-16 13:02:20.990303",
+  "name": "Performance Review"
+ },
+ {
+  "call_type": "Onboarding",
+  "docstatus": 0,
+  "doctype": "Employee Call Type",
+  "modified": "2025-06-16 13:02:34.952109",
+  "name": "Onboarding"
+ }
+]

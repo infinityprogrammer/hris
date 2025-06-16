@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-16 12:57:11.065163",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "call_date",
+  "call_type",
+  "participant",
+  "discussion_outcome"
+ ],
+ "fields": [
+  {
+   "fieldname": "call_date",
+   "fieldtype": "Date",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Call Date"
+  },
+  {
+   "fieldname": "call_type",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Call Type",
+   "options": "Employee Call Type"
+  },
+  {
+   "fieldname": "participant",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Participant",
+   "options": "Employee Call Participant"
+  },
+  {
+   "fieldname": "discussion_outcome",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Discussion Outcome"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-06-16 13:00:04.144733",
+ "modified_by": "Administrator",
+ "module": "Hris",
+ "name": "Employee Calls",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

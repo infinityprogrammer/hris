@@ -5,7 +5,7 @@
   "css": null,
   "custom_format": 0,
   "default_print_language": "en",
-  "disabled": 1,
+  "disabled": 0,
   "doc_type": "Employee Invoice",
   "docstatus": 0,
   "doctype": "Print Format",

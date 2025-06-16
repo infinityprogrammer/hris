@@ -348,7 +348,9 @@ fixtures = [
                 "Employee-custom_salary_details",
                 "Employee-custom_exit",
                 "Employee-custom_time_zone_new",
-                "Customer-custom_cluster"
+                "Customer-custom_cluster",
+                "Employee-custom_employee_calls",
+                "Employee-custom_calls"
             ]
         ]
     ]},
@@ -377,5 +379,11 @@ fixtures = [
                 ],
             ],
         ],
+    },
+    {
+        "dt": "Employee Call Participant",
+    },
+    {
+        "dt": "Employee Call Type",
     },
 ]
