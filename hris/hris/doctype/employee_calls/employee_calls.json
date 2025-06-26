@@ -9,7 +9,8 @@
   "call_date",
   "call_type",
   "participant",
-  "discussion_outcome"
+  "discussion_outcome",
+  "attach_files"
  ],
  "fields": [
   {
@@ -19,7 +20,7 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Call Date"
+   "label": "Date"
   },
   {
    "fieldname": "call_type",
@@ -28,7 +29,7 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Call Type",
+   "label": "Type",
    "options": "Employee Call Type"
   },
   {
@@ -43,18 +44,23 @@
   },
   {
    "fieldname": "discussion_outcome",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "in_filter": 1,
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Discussion Outcome"
+  },
+  {
+   "fieldname": "attach_files",
+   "fieldtype": "Attach",
+   "label": "Attach Files"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-06-16 13:00:04.144733",
+ "modified": "2025-06-26 14:51:06.515432",
  "modified_by": "Administrator",
  "module": "Hris",
  "name": "Employee Calls",

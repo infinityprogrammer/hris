@@ -12,5 +12,12 @@
   "modified": "2025-06-16 13:03:07.412795",
   "name": "Team Lead",
   "participant": "Team Lead"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Employee Call Participant",
+  "modified": "2025-06-26 14:49:20.647102",
+  "name": "Line Manager",
+  "participant": "Line Manager"
  }
 ]
