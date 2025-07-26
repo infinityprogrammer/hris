@@ -9,8 +9,20 @@ from frappe.utils import cstr, getdate, cint
 def execute(filters=None):
 	columns, data = [], []
 	data = get_data(filters)
+
+	print("Data before removing empty rows:", data)
+	months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
+
+
+	filtered_data = []
+	for entry in data:
+		month_values = [entry.get(m, 0) for m in months]
+		if not all(v == 0 for v in month_values):
+			filtered_data.append(entry)
+		
+
 	columns = get_columns(filters)
-	return columns, data
+	return columns, filtered_data
 
 def get_data(filters):
 	data = []
