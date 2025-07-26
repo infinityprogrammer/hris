@@ -47,7 +47,7 @@ def get_data(filters):
 		customer_w['title'] = row.customer
 		for index, month in enumerate(all_months_lowercase):
 			customer_code = frappe.db.get_value('Customer', row.customer, 'customer_code')
-			val = get_customer_cash_in(filters, customer_code, index+1)
+			val = get_customer_cash_in(filters, customer_code, index+1, row.customer)
 			customer_w[month] = val[0].balance
 		
 		data.append(customer_w)
@@ -202,13 +202,13 @@ def get_cash_out_against(filters):
 
 	return out_items
 
-def get_customer_cash_in(filters, customer_code, month):
+def get_customer_cash_in(filters, customer_code, month, against):
 	
 	cust_str = ""
 	if customer_code:
 		cust_str = "against in (select name from `tabCustomer` where customer_code = %(customer_code)s)"
 	else:
-		cust_str = "against not in (select name from `tabCustomer`)"
+		cust_str = "against = %(against)s"
 
 	customer_val = frappe.db.sql(
         """
@@ -221,7 +221,8 @@ def get_customer_cash_in(filters, customer_code, month):
 		and acc.account_type = 'Bank'
 		and month(posting_date) = %(month)s and year(posting_date) = %(year)s
 		and {cust_str}
-		""".format(cust_str=cust_str),{'month': month,'year': filters.get("fiscal_year"), 'company': filters.get("company"),'customer_code':customer_code}, as_dict=1,
+		""".format(cust_str=cust_str),{'month': month,'year': filters.get("fiscal_year"), 
+								 'company': filters.get("company"),'customer_code':customer_code, 'against': against}, as_dict=1,
     )
 
 	return customer_val
@@ -268,10 +269,10 @@ def get_dist_customer(filters):
 		and gl.is_cancelled = 0
 		and acc.account_type = 'Bank'
 		and year(posting_date) = %(year)s
-		and against in (SELECT name FROM `tabCustomer`)
+		-- and against in (SELECT name FROM `tabCustomer`)
 		group by against
-		union ALL
-		SELECT 'Others'
+		-- union ALL
+		-- SELECT 'Others'
 		""",{'year': filters.get("fiscal_year"), 'company': filters.get("company")}, as_dict=1,
     )
 
