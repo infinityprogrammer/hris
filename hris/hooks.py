@@ -350,7 +350,9 @@ fixtures = [
                 "Employee-custom_time_zone_new",
                 "Customer-custom_cluster",
                 "Employee-custom_employee_calls",
-                "Employee-custom_calls"
+                "Employee-custom_calls",
+                "Account-custom_cashflow_category",
+                "Supplier-custom_cashflow_category"
             ]
         ]
     ]},

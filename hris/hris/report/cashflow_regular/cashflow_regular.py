@@ -10,7 +10,6 @@ def execute(filters=None):
 	columns, data = [], []
 	data = get_data(filters)
 
-	print("Data before removing empty rows:", data)
 	months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
 
 
@@ -22,7 +21,32 @@ def execute(filters=None):
 		
 
 	columns = get_columns(filters)
+
+	for row in filtered_data:
+		row['category'] = get_cashflow_category(row.get('title') or "")
+
+
 	return columns, filtered_data
+
+
+def get_cashflow_category(title):
+	
+	#check in accont doctype
+	account = frappe.db.get_value('Account', title, 'custom_cashflow_category')
+	if account:
+		return account
+	
+	# check in customer doctype
+	customer = frappe.db.get_value('Customer', title, 'customer_code')
+	if customer:
+		return customer
+	
+	# check in supplier doctype
+	supplier = frappe.db.get_value('Supplier', title, 'custom_cashflow_category')
+	if supplier:
+		return supplier
+
+	return ""
 
 def get_data(filters):
 	data = []
@@ -103,6 +127,11 @@ def get_data(filters):
 		'SUP-0020' : 'TSYS Card Tech LTD',
 		'SUP-0024': 'ICC Solutions Limited',
 		'SUP-0026': 'KEDINASAL',
+		'SUP-0068': 'cetecom advanced GmbH',
+		'SUP-0074': 'Royal Compass Business service LLC',
+		'SUP-0114': 'EMVCO LLC',
+		'SUP-0122': 'Net Desire Technologies LLC',
+		'SUP-0126': 'Partners for Profit',
 	}
 	
 	out_list = []
@@ -340,6 +369,12 @@ def get_columns(filters):
 			"fieldname": "title",
 			"fieldtype": "Data",
 			"width": 300,
+		},
+		{
+			"label": _(f"Category"),
+			"fieldname": "category",
+			"fieldtype": "Data",
+			"width": 160,
 		},
 		{
 			"label": _(f"January {filters.get('fiscal_year')}"),

@@ -7,6 +7,7 @@ from frappe import _, _dict
 from frappe.utils import cstr, getdate, cint, add_to_date, get_last_day, add_days, flt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from hris.hris.report.cashflow_regular.cashflow_regular import get_cashflow_category
 
 
 
@@ -15,8 +16,13 @@ def execute(filters=None):
 
 	data = get_data(filters)
 	columns = get_columns(filters)
+
+	for row in data:
+		row['category'] = get_cashflow_category(row.get('title') or "")
 	
 	return columns, data
+
+
 
 def get_data(filters):
 
@@ -257,6 +263,12 @@ def get_columns(filters):
 			"fieldname": "title",
 			"fieldtype": "Data",
 			"width": 300,
+		},
+		{
+			"label": _(f"Category"),
+			"fieldname": "category",
+			"fieldtype": "Data",
+			"width": 160,
 		},
 		{
 			"label": _(f"Opening Till {filters.get('till_date')}"),
